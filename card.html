@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Men Page</title>
+    <style>
+      body{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #container{
+        padding: 30px;
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 20px;
+      }
+      #container>div{
+        box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+        padding: 20px;
+      }
+      .price-div{
+        display: flex;
+        justify-content: space-around;
+      }
+      .price-div p:last-child{
+        text-decoration-line:line-through;
+      }
+      #navbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #fff;
+        display: flex;
+        justify-content: space-around;
+        /*background-color: teal;*/
+        padding: 10px 2%;
+        
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+        
+        
+      }
+
+      a {
+        text-decoration: none;
+        font-size: 20px;
+        color: black;
+
+      }
+      #navbar a:hover {
+        color: #f43397;
+      }
+      #navbar a {
+        cursor: pointer;
+      }
+      h1{
+        margin-top: 50px;
+        text-align: center;
+      }
+      button{
+        display: block;
+        width: 100%;
+        background-color:  rgba(236, 19, 19, 0.883);
+        border: 0;
+        border-radius: 5px;
+        padding: 10px 30px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      h3{
+            text-align: center;
+            background-color: green;
+            color: white;
+            line-height: 50px;
+            font-size: 25px;
+    }
+    .clr{
+        background-color: green;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="navbar">
+      <div><a href="men.html">Men</a></div>
+      <div><a href="women.html">Women</a></div>
+      <div><a href="signup.html">Signup</a></div>
+      <div><a href="login.html">Login</a></div>
+    </div>
+    <h1>Card Items</h1>
+    <h3></h3>
+    <div id="container"></div>
+</body>
+</html>
+
+<script>
+    var cardData = JSON.parse(localStorage.getItem("cart"))
+    var total = cardData.reduce(function(sum,elem,index,arr){
+        return sum+elem.price;
+    },0)
+    var length = cardData.length;
+
+    document.querySelector("h3").innerText=` You have ${length} items in Bag, Total Bill is Rs. ${total}`
+
+
+
+    cardData.map(function (elem,index) {
+        var box = document.createElement("div");
+    
+        var img = document.createElement("img");
+        img.src = elem.image_url;
+    
+        var name = document.createElement("p");
+        name.textContent = elem.name;
+    
+        var price = document.createElement("p");
+        price.innerText = elem.price;
+
+        var btn1 = document.createElement("button")
+        btn1.innerText = "Place Order";
+        btn1.setAttribute("class","clr")
+
+        var btn = document.createElement("button")
+        btn.innerText = "Remove Item";
+       
+
+        btn.addEventListener("click",function(){
+            removeItem(elem,index)
+        })
+    
+        box.append(img,name,price,btn1,btn);
+    
+        document.querySelector("#container").append(box);
+      });
+    
+      function removeItem(elem,index){
+          console.log(elem,index)
+          cardData.splice(index,1)
+          console.log(cardData)
+          localStorage.setItem("cart",JSON.stringify(cardData))
+          window.location.reload()
+          
+
+
+      }
+
+</script>
